@@ -10,7 +10,8 @@ public class Scroll_Control : MonoBehaviour
     float _bottomScreen;
     Camera _camera;
     public GameObject tentMenu;
-    
+    public GameObject wagonMenu;
+
 
     void Start()
     {
@@ -26,7 +27,6 @@ public class Scroll_Control : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             { _touchStart = touch.position; }
-
             if (touch.phase == TouchPhase.Ended)
             { SwipeDirector(touch.position);  }
         }
@@ -34,7 +34,6 @@ public class Scroll_Control : MonoBehaviour
         #if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0)) // pal raton del PC
         { _touchStart = Input.mousePosition; }
-
         if (Input.GetMouseButtonUp(0))
         { SwipeDirector(Input.mousePosition); }
         #endif
@@ -51,27 +50,44 @@ public class Scroll_Control : MonoBehaviour
         float bottomZoneHeight = _bottomScreen;
         bool startedInBottomZone = _touchStart.y < bottomZoneHeight;
 
-        if (isHorizontal) // Camara Lado
+        if (isHorizontal) //movimiento horizontal de zona
         {
-            if (delta.x < 0) MoveCamera(1);
-            if (delta.x > 0) MoveCamera(-1);
+            if (delta.x < 0) HorizontCamera(1);
+            if (delta.x > 0) HorizontCamera(-1);
         }
 
-        if (isVertical && startedInBottomZone) // Carro Menu
+        if (isVertical) //movimiento vertical de zona
         {
-            RectTransform rt = tentMenu.GetComponent<RectTransform>();
+            if (delta.y < 0) VerticalCamera(1);
+            if (delta.y > 0) VerticalCamera(-1);
+        }
 
-            if (delta.y > 0)
-            { rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, 0f); }
-            if (delta.y < 0)
-            { rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -1575f); }
+        if (isVertical && startedInBottomZone) // despliegue del carro menu
+        {
+            if (delta.y > 0) //deslizo hacia arriba y abro el carro
+            { 
+            tentMenu.SetActive(false);
+            wagonMenu.SetActive(true);
+            }
+            if (delta.y < 0) //deslizo hacia abajo y cierro el carro
+            {
+             tentMenu.SetActive(true);
+             wagonMenu.SetActive(false);
+            }
         }
     }
 
-    void MoveCamera(int direction)
+    void HorizontCamera(int direction)
     {
         Vector2 pos = _camera.transform.position;
         pos.x += scrollDistance * direction;
+        _camera.transform.position = pos;
+    }
+
+    void VerticalCamera(int direction)
+    {
+        Vector2 pos = _camera.transform.position;
+        pos.y += scrollDistance * direction;
         _camera.transform.position = pos;
     }
 }
