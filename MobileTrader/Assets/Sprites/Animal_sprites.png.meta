@@ -1,0 +1,796 @@
+fileFormatVersion: 2
+guid: f29b66a2b400f004295cdbf440af276b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Animal Trader_3
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 841
+        width: 148
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7029f7100511d6f418582ac826c40ed6
+      internalID: 932389588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_4
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 828
+        width: 189
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f952300a81108564995b02d7c24973fc
+      internalID: 1176647218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_5
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 814
+        width: 159
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60ea64b991e795b448e72bb8768ae8a9
+      internalID: -550978236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_6
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 846
+        width: 138
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7317e99c0f82d74ab35066100a7dd17
+      internalID: 1877866476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_7
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 846
+        width: 167
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1f1685c5cb937d41bfd22cd53ec4a15
+      internalID: 1732801836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_8
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 658
+        width: 170
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b04d1e3e0bfc705429efed0df90e7a33
+      internalID: 1903250738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_10
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 666
+        width: 155
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9e2767690b60eb408b96fae9b3f939c
+      internalID: -59548929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_11
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 664
+        width: 158
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6314b36f26d4884dbfe104a9a681b8e
+      internalID: 1105112107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_12
+      rect:
+        serializedVersion: 2
+        x: 898
+        y: 664
+        width: 158
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4457aaa6e7a3a0644b84a99186a396e7
+      internalID: -1482951466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_14
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 666
+        width: 168
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df4ac741be96b37459a1a60cd1a6f80d
+      internalID: 917414798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_18
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 474
+        width: 135
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1059408639b4e74f94770db5d3941a1
+      internalID: -8576260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_19
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 468
+        width: 116
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e0414f7cd10b664b9d79b2f1b2328fe
+      internalID: 1592257925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_20
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 469
+        width: 147
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b82e26bbe51461c4990e2189ccd76256
+      internalID: 672681336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_22
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 468
+        width: 127
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c4273511ec7a8f48971798d9812678c
+      internalID: -1476238293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 468
+        width: 182
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0161a45301c81a74d97a173ee6b07186
+      internalID: -536635561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_25
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 481
+        width: 138
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fea9b5af046457f49b5b208a7a2f9f53
+      internalID: -333456639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_26
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 279
+        width: 128
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cfb69f3cec286f4380d03b142e1511c
+      internalID: 1763897051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_27
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 281
+        width: 115
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d99e1ac768cbf5f4c89dac15252ad60e
+      internalID: -1312298207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_28
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 277
+        width: 132
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b97f6054a5ed18a4f85625950c3056d8
+      internalID: 1296736822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_29
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 300
+        width: 130
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4eb82a930e9309e42b80b5e5f5aa04aa
+      internalID: 105565953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_31
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 301
+        width: 152
+        height: 121
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b72b2fb357247545ab9ce7492c0fb76
+      internalID: -1790323061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_38
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 101
+        width: 156
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 268b4320ca2fe5e4f8e852f43447ebea
+      internalID: 841482334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_40
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 103
+        width: 172
+        height: 149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77a6c818623f66c44bd2b51f9b5efe64
+      internalID: 225608160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_41
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 111
+        width: 134
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d455f3b00eeb2f847ba5ecbf546f7f4d
+      internalID: 486367903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_44
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 114
+        width: 123
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ca8025b15a56b74f928d35315606b3c
+      internalID: 838067725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_45
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 114
+        width: 162
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41b5834e9d7589e49bf1c28b33cfdb09
+      internalID: -238004173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_0
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 279
+        width: 120
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c17e54545d524245884e63fc521bb53
+      internalID: 1217423278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Animal Trader_1
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 92
+        width: 155
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c4531f93c19c0c49a4692ab5141cd74
+      internalID: 330450403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 19e0cb8e7bebda744a70f333a509e0f8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Animal Trader_0: 1217423278
+      Animal Trader_1: 330450403
+      Animal Trader_10: -59548929
+      Animal Trader_11: 1105112107
+      Animal Trader_12: -1482951466
+      Animal Trader_13: -273138577
+      Animal Trader_14: 917414798
+      Animal Trader_15: 837104816
+      Animal Trader_16: 1385724012
+      Animal Trader_17: 479279651
+      Animal Trader_18: -8576260
+      Animal Trader_19: 1592257925
+      Animal Trader_2: -1105290879
+      Animal Trader_20: 672681336
+      Animal Trader_21: 465714557
+      Animal Trader_22: -1476238293
+      Animal Trader_23: -536635561
+      Animal Trader_24: -754736522
+      Animal Trader_25: -333456639
+      Animal Trader_26: 1763897051
+      Animal Trader_27: -1312298207
+      Animal Trader_28: 1296736822
+      Animal Trader_29: 105565953
+      Animal Trader_3: 932389588
+      Animal Trader_30: -1806886680
+      Animal Trader_31: -1790323061
+      Animal Trader_32: 1661155359
+      Animal Trader_33: 783341418
+      Animal Trader_34: -1707668458
+      Animal Trader_35: 640376557
+      Animal Trader_36: -206114148
+      Animal Trader_37: -877441974
+      Animal Trader_38: 841482334
+      Animal Trader_39: 595792234
+      Animal Trader_4: 1176647218
+      Animal Trader_40: 225608160
+      Animal Trader_41: 486367903
+      Animal Trader_42: 1166134448
+      Animal Trader_43: -1981874538
+      Animal Trader_44: 838067725
+      Animal Trader_45: -238004173
+      Animal Trader_46: -725210288
+      Animal Trader_47: 5923499
+      Animal Trader_48: -1935649589
+      Animal Trader_49: -1653719240
+      Animal Trader_5: -550978236
+      Animal Trader_6: 1877866476
+      Animal Trader_7: 1732801836
+      Animal Trader_8: 1903250738
+      Animal Trader_9: -1246810507
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
