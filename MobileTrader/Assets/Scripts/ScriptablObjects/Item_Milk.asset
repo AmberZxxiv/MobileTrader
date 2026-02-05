@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad428efd26c22a4ba0832e3a097566b, type: 3}
+  m_Name: Item_Milk
+  m_EditorClassIdentifier: 
+  itemName: Milk
+  icon: {fileID: 1371431871, guid: a18601d9a281e5346a18e80fa857b580, type: 3}
+  amount: 1

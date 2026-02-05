@@ -1,11 +1,18 @@
+using NUnit.Framework.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Animal_Control : MonoBehaviour
-{
+{// script en cada prefab de animal
+    #region /// MOVIMIENTO ///
     public float speed;
     Vector2 _direction;
     Bounds _bounds;
+    #endregion
+
+    #region /// PRODUCTION ///
+    public Item_Data producedItem;
+    #endregion
 
     void Start()
     {
@@ -20,6 +27,9 @@ public class Animal_Control : MonoBehaviour
         transform.Translate(_direction * speed * Time.deltaTime);
         CheckBounds();
     }
+
+    void OnMouseDown() // clicar sobre el animal para recoger su producto
+    { Inventory_Manager.Instance.AddItem(producedItem); }
 
     public void SetParcelBounds(Collider2D parcel) // pillo Parcel_Limiter
     { _bounds = parcel.bounds; }

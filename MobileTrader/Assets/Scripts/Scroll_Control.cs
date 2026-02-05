@@ -6,7 +6,8 @@ using ClassicTouch = UnityEngine.Touch;
 using UnityEngine.InputSystem.LowLevel;
 
 public class Scroll_Control : MonoBehaviour
-{
+{// script en el canvas porque si
+    
     CurrentMenu currentMenu;
     enum CurrentMenu
     {
