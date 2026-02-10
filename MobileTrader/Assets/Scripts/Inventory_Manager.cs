@@ -6,10 +6,10 @@ public class Inventory_Manager : MonoBehaviour
 {// script en el canvas porque si
     public static Inventory_Manager Instance; // creo SINGLE
 
-    public Item_Slots slotPrefab; // prefab del slot
-    public Transform content; // panel donde se van a instanciar
-    private Dictionary<Item_Data, int> inventory = new Dictionary<Item_Data, int>();
-    private Dictionary<Item_Data, Item_Slots> slots = new Dictionary<Item_Data, Item_Slots>();
+    public Item_Slots itemPrefab; // prefab del item
+    public Transform inventSlots; // panel donde se van a instanciar
+    Dictionary<Item_Data, int> inventory = new Dictionary<Item_Data, int>(); //controlo las cantidades
+    Dictionary<Item_Data, Item_Slots> slots = new Dictionary<Item_Data, Item_Slots>(); //controlo los items
 
     void Awake() // Single cosas
     {
@@ -21,16 +21,13 @@ public class Inventory_Manager : MonoBehaviour
     {
         if (inventory.ContainsKey(item))
             inventory[item] += item.amount;
-        else
-            inventory[item] = item.amount;
+        else inventory[item] = item.amount;
 
         if (slots.ContainsKey(item))
-        {
-            slots[item].UpdateAmount(inventory[item]);
-        }
+        { slots[item].UpdateAmount(inventory[item]); }
         else
         {
-            Item_Slots newSlot = Instantiate(slotPrefab, content);
+            Item_Slots newSlot = Instantiate(itemPrefab, inventSlots);
             newSlot.Setup(item, inventory[item]);
             slots[item] = newSlot;
         }

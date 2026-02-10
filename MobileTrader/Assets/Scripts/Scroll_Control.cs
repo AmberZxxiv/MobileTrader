@@ -28,7 +28,6 @@ public class Scroll_Control : MonoBehaviour
 
     #region /// CONTROL DESPLAZAMIENTO ///
     public float scrollForce;
-    public float scrollDistance;
     Vector2 _touchStart;
     float _topScreen;
     float _bottomScreen;

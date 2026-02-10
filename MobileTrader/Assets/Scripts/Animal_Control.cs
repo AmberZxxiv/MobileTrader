@@ -29,7 +29,7 @@ public class Animal_Control : MonoBehaviour
     }
 
     void OnMouseDown() // clicar sobre el animal para recoger su producto
-    { Inventory_Manager.Instance.AddItem(producedItem); }
+    {if (producedItem != null) Inventory_Manager.Instance.AddItem(producedItem); }
 
     public void SetParcelBounds(Collider2D parcel) // pillo Parcel_Limiter
     { _bounds = parcel.bounds; }
