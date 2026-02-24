@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Animal_Control : MonoBehaviour
 {// script en cada prefab de animal
+
     #region /// MOVIMIENTO ///
     public float speed;
     Vector2 _direction;
@@ -28,8 +29,8 @@ public class Animal_Control : MonoBehaviour
         CheckBounds();
     }
 
-    void OnMouseDown() // clicar sobre el animal para recoger su producto
-    {if (producedItem != null) Inventory_Manager.Instance.AddItem(producedItem); }
+    void OnMouseDown() // clicar sobre el animal añade su producto al inventario
+    { if (producedItem != null) Inventory_Manager.Instance.AddItem(producedItem); }
 
     public void SetParcelBounds(Collider2D parcel) // pillo Parcel_Limiter
     { _bounds = parcel.bounds; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory_Manager : MonoBehaviour
-{// script en el canvas porque si
+{// script canvas porque tiene que estar en algun lao
     public static Inventory_Manager Instance; // creo SINGLE
 
     public Item_Slots itemPrefab; // prefab del item
@@ -11,7 +11,7 @@ public class Inventory_Manager : MonoBehaviour
     Dictionary<Item_Data, int> inventory = new Dictionary<Item_Data, int>(); //controlo las cantidades
     Dictionary<Item_Data, Item_Slots> slots = new Dictionary<Item_Data, Item_Slots>(); //controlo los items
 
-    void Awake() // Single cosas
+    void Awake() // single cosas
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
