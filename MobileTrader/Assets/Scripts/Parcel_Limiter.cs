@@ -5,33 +5,38 @@ using UnityEngine.UIElements;
 
 public class Parcel_Limiter : MonoBehaviour
 {// script padre prefab de cada parcela
-    public static Parcel_Limiter _PL; //SINGLE
-    
+    public static Parcel_Limiter _PL; //SINGLE PARCELA ACTUAL 
+
     public enum ParcelType
     { Base, Crops, Farm }
     public ParcelType parcelType;
+    public enum ResourceType
+    { Pet, Plant, Animal }
+    public ResourceType resourceType;
 
+    #region /// SPACE LIMITS ///
     public Collider2D parcelBounds;
     public Transform gridStart;
     public int gridColumns;
     public int gridRows;
     public float gridSpacing;
     public int animalLimit;
-    List<GameObject> _plantsCount = new List<GameObject>();
-    List<GameObject> _animalCount = new List<GameObject>();
-    List<GameObject> _petsCount = new List<GameObject>();
+    #endregion
 
-
-    private void Start()
+    // relaciono los objetos en listas
+    Dictionary<ResourceType, List<GameObject>> resources = new Dictionary<ResourceType, List<GameObject>>()
     {
-        // llamo al registro de listas
-        Scroll_Control._SC.RegisterParcel(this);
-    }
+    { ResourceType.Plant, new List<GameObject>() },
+    { ResourceType.Animal, new List<GameObject>() },
+    { ResourceType.Pet, new List<GameObject>() }
+    };
+
+    private void Start() // llamo al registro del S_Control
+    { Scroll_Control._SC.RegisterParcel(this); }
 
     void OnEnable() // cuando activo la nueva parcela
     {
-        _PL = this; // SINGLE ACTUAL 
-
+        _PL = this; // SINGLE PARCELA ACTUAL 
         // cojo controladores de todos los hijos animales y les activo el limitador
         if (parcelType == ParcelType.Farm || parcelType == ParcelType.Base)
         {
@@ -40,60 +45,39 @@ public class Parcel_Limiter : MonoBehaviour
             { animal.SetParcelBounds(parcelBounds); }
         }
     }
-    public bool ToAddPlant(GameObject plantPrefabCustom)
+    public bool ToAddResource(GameObject prefab, ResourceType type) // desde Inventario al Comprar
     {
-        if (!HasSpaceForPlant())
-        { print("Crops llenas"); return false; }
-
-        int index = _plantsCount.Count;
-        int row = index / gridColumns;
-        int col = index % gridColumns;
-
-        UnityEngine.Vector3 pos = gridStart.position;
-        pos.x += col * gridSpacing;
-        pos.y -= row * gridSpacing;
-
-        GameObject newPlant = Instantiate(plantPrefabCustom, pos, UnityEngine.Quaternion.identity, transform);
-        _plantsCount.Add(newPlant);
+        if (!HasSpace(type)) { print(type + " lleno"); return false; }
+        var list = resources[type];
+        UnityEngine.Vector3 spawnPos = gridStart.position;
+        if (type == ResourceType.Plant) //plantas desde esquina grid
+        {
+            int index = list.Count;
+            int row = index / gridColumns;
+            int col = index % gridColumns;
+            spawnPos.x += col * gridSpacing;
+            spawnPos.y -= row * gridSpacing;
+        }
+        else // animales desde circulo central
+        { spawnPos += new UnityEngine.Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0); }
+        // instancio el recurso correspondiente
+        GameObject newEntity = Instantiate(prefab, spawnPos, UnityEngine.Quaternion.identity, transform);
+        list.Add(newEntity);
         return true;
     }
-
-    public bool ToAddAnimal(GameObject animalPrefabCustom)
-    {
-        if (!HasSpaceForAnimal())
-        { print("Farms llenas"); return false; }
-
-        UnityEngine.Vector3 offset = new UnityEngine.Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
-        UnityEngine.Vector3 pos = gridStart.position + offset;
-
-        GameObject newAnimal = Instantiate(animalPrefabCustom, pos, UnityEngine.Quaternion.identity, transform);
-        _animalCount.Add(newAnimal);
-        return true;
+    public bool HasSpace(ResourceType type)
+    { // cojo los límites de cada recurso
+        var list = resources[type];
+        if (type == ResourceType.Plant)
+        return (list.Count / gridColumns) < gridRows;
+        else
+        return list.Count < animalLimit;
     }
-    public bool ToAddPet(GameObject petPrefab)
-    {
-        if (!HasSpaceForPets())
-        {print("Mascotas llenas"); return false;}
-
-        UnityEngine.Vector3 offset = new UnityEngine.Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
-        UnityEngine.Vector3 pos = gridStart.position + offset;
-
-        GameObject newPet = Instantiate(petPrefab, pos, UnityEngine.Quaternion.identity, transform);
-        _petsCount.Add(newPet);
-        return true;
-    }
+    // desde Inventario al Comprar
     public bool HasSpaceForPlant()
-    {
-        int index = _plantsCount.Count;
-        int row = index / gridColumns;
-        return row < gridRows;
-    }
+    { return HasSpace(ResourceType.Plant); }
     public bool HasSpaceForAnimal()
-    {
-        return _animalCount.Count < animalLimit;
-    }
+    { return HasSpace(ResourceType.Animal); }
     public bool HasSpaceForPets()
-    {
-        return _petsCount.Count < animalLimit;
-    }
+    { return HasSpace(ResourceType.Pet); }
 }

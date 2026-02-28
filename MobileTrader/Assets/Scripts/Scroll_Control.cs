@@ -9,7 +9,7 @@ using TMPro;
 
 public class Scroll_Control : MonoBehaviour
 {// script en el canvas porque tiene que estar en algun lao
-    public static Scroll_Control _SC; //SINGLE
+    public static Scroll_Control _SC; // declaro SINGLE
     public enum CurrentMenu
     { Tent, Wagon, Merchant }
     public CurrentMenu currentMenu;
@@ -44,51 +44,19 @@ public class Scroll_Control : MonoBehaviour
     float _bottomScreen;
     #endregion
 
-    void Awake() // SINGLE cosas
-    {
-        if (_SC == null) _SC = this;
-        else Destroy(gameObject);
-    }
-
+    void Awake() // declaro SINGLE
+    { if (_SC == null) _SC = this; else Destroy(gameObject); }
     void Start()
     {
-        // cojo los espacios relativos de la pantalla
+        // cojo espacios relativos de pantalla
         _topScreen = Screen.height * 0.75f;
         _bottomScreen = Screen.height * 0.25f;
-
-        // aparezco con el Tent plegado
-        ShowTent();
-
-        // aseguro que solo activo la parcela 0 al iniciar
+        // conteo parcelas de cada tipo
+        InitializeParcels();
+        // aseguro que activo parcela 0 al iniciar
         for (int i = 0; i < parceList.Count; i++)
         { parceList[i].SetActive(i == currentParcel);}
-
-        // conteo las parcelas de cada tipo
-        baseParcels.Clear();
-        foreach (GameObject parcelUnit in parceList)
-        {
-            Parcel_Limiter parcel = parcelUnit.GetComponent<Parcel_Limiter>();
-            if (parcel != null && parcel.parcelType == Parcel_Limiter.ParcelType.Base)
-            {
-                baseParcels.Add(parcel);
-            }
-        }
-        cropsParcels.Clear();
-        foreach (GameObject parcelUnit in parceList)
-        {
-            Parcel_Limiter parcel = parcelUnit.GetComponent<Parcel_Limiter>();
-            if (parcel != null && parcel.parcelType == Parcel_Limiter.ParcelType.Crops)
-            { cropsParcels.Add(parcel); }
-        }
-        farmParcels.Clear();
-        foreach (GameObject parcelUnit in parceList)
-        {
-            Parcel_Limiter parcel = parcelUnit.GetComponent<Parcel_Limiter>();
-            if (parcel != null && parcel.parcelType == Parcel_Limiter.ParcelType.Farm)
-            { farmParcels.Add(parcel); }
-        }
     }
-
     void Update()
     {
         if (Input.touchCount > 0) //pal tactil del movil
@@ -109,6 +77,28 @@ public class Scroll_Control : MonoBehaviour
         #endif
     }
 
+    void InitializeParcels()
+    {
+        baseParcels.Clear();
+        cropsParcels.Clear();
+        farmParcels.Clear();
+        foreach (GameObject parcelUnit in parceList)
+        {
+            Parcel_Limiter parcel = parcelUnit.GetComponent<Parcel_Limiter>();
+            if (parcel == null) continue;
+            switch (parcel.parcelType)
+            {
+                case Parcel_Limiter.ParcelType.Base:
+                    baseParcels.Add(parcel); break;
+
+                case Parcel_Limiter.ParcelType.Crops:
+                    cropsParcels.Add(parcel); break;
+
+                case Parcel_Limiter.ParcelType.Farm:
+                    farmParcels.Add(parcel); break;
+            }
+        }
+    }
     void SwipeDirector(Vector2 endPos)
     {
         // pillo el movimiento, y si tiene la fuerza suficiente lo comparo
@@ -125,162 +115,129 @@ public class Scroll_Control : MonoBehaviour
         {
             switch (currentMenu)
             {
-                case CurrentMenu.Merchant:
-                    if (delta.x < 0) NextMerchMenu();       // swipe izquierda
-                    if (delta.x > 0) PreviousMerchMenu();  // swipe derecha
-                    break;
-
                 case CurrentMenu.Wagon:
                 case CurrentMenu.Tent:
                     if (delta.x < 0) NextParcel();      // swipe izquierda
                     if (delta.x > 0) PreviousParcel(); // swipe derecha
                     break;
+                case CurrentMenu.Merchant:
+                    if (delta.x < 0) NextMerchMenu();       // swipe izquierda
+                    if (delta.x > 0) PreviousMerchMenu();  // swipe derecha
+                    break;
             }
         }
-        // Desde Tent abajo a arriba, activo Wagon
-        if (isVertical && startedInBottomZone && delta.y > 0 && currentMenu == CurrentMenu.Tent)
-        {
-            ShowWagon();
-            return;
-        }
-        // Desde Wagon arriba a abajo, vuelvo a Tent
         if (isVertical && startedInTopZone && delta.y < 0 && currentMenu == CurrentMenu.Wagon)
-        {
+        {// Desde Wagon arriba a abajo, vuelvo a Tent
             ShowTent();
             return;
         }
-        // Desde Wagon abajo a arriba, voy a Merchant
+        if (isVertical && startedInBottomZone && delta.y > 0 && currentMenu == CurrentMenu.Tent)
+        {// Desde Tent abajo a arriba, activo Wagon
+            ShowWagon();
+            return;
+        }
         if (isVertical && startedInBottomZone && delta.y > 0 && currentMenu == CurrentMenu.Wagon)
-        {
+        {// Desde Wagon abajo a arriba, voy a Merchant
             ShowMerchant();
             return;
         }
-        // Desde Merchant arrib a abajo, vuelvo a Wagon
         if (isVertical && startedInTopZone && delta.y < 0 && currentMenu == CurrentMenu.Merchant)
-        {
+        {// Desde Merchant arriba a abajo, vuelvo a Wagon
             ShowWagon();
             return;
         }
     }
-
-    public void NextParcel()
-    { // sumo 1 en la lista de parcelas y si no hay mas, doy la vuelta
+    public void NextParcel()// sumo 1 en lista general parcelas
+    { ChangeParcel(1);}
+    public void PreviousParcel()// resto 1 en la lista de parcelas
+    { ChangeParcel(-1);}
+    void ChangeParcel(int direction)
+    {
         if (parceList == null || parceList.Count == 0) return;
         parceList[currentParcel].SetActive(false);
-        currentParcel = (currentParcel + 1) % parceList.Count;
+        currentParcel = (currentParcel + direction + parceList.Count) % parceList.Count;
         parceList[currentParcel].SetActive(true);
     }
-    public void PreviousParcel()
-    {// resto 1 en la lista de parcelas y si no hay mas, doy la vuelta
-        if (parceList == null || parceList.Count == 0) return;
-        parceList[currentParcel].SetActive(false);
-        currentParcel = (currentParcel - 1 + parceList.Count) % parceList.Count;
-        parceList[currentParcel].SetActive(true);
+    void ChangeMenu(CurrentMenu newMenu)
+    {
+        currentMenu = newMenu;
+        bool showParcel = (newMenu == CurrentMenu.Tent);
+        parceList[currentParcel].SetActive(showParcel);
+
+        inventoryGrid.SetActive(newMenu != CurrentMenu.Tent);
+        tentMenu.SetActive(newMenu == CurrentMenu.Tent);
+        wagonMenu.SetActive(newMenu == CurrentMenu.Wagon);
+        DisableMerchMenus();
+
+        if (newMenu == CurrentMenu.Wagon)
+        { inventoryGrid.GetComponent<RectTransform>().anchoredPosition = wagonInvent; }
+        if (newMenu == CurrentMenu.Merchant)
+        {
+            inventoryGrid.GetComponent<RectTransform>().anchoredPosition = merchInvent;
+            _currentMerch = 0;
+            UpdateMerchMenu();
+        }
     }
     void ShowTent() // actualizo los menus a tent
-    {
-        parceList[currentParcel].SetActive(true);
-        inventoryGrid.SetActive(false);
-        tentMenu.SetActive(true);
-        wagonMenu.SetActive(false);
-        DisableMerchMenus();
-        currentMenu = CurrentMenu.Tent;
-    }
+    { ChangeMenu(CurrentMenu.Tent); }
     void ShowWagon() // actualizo los menus a wagon
-    {
-        parceList[currentParcel].SetActive(false);
-        inventoryGrid.SetActive(true);
-        RectTransform rt = inventoryGrid.GetComponent<RectTransform>();
-        rt.anchoredPosition = wagonInvent;
-        tentMenu.SetActive(false);
-        wagonMenu.SetActive(true);
-        DisableMerchMenus();
-        currentMenu = CurrentMenu.Wagon;
-    }
+    { ChangeMenu(CurrentMenu.Wagon);}
     void ShowMerchant() // actualizo los menus a merchant
+    { ChangeMenu(CurrentMenu.Merchant);}
+    void ChangeMerchMenu(int direction)
     {
-        parceList[currentParcel].SetActive(false);
-        inventoryGrid.SetActive(true);
-        RectTransform rt = inventoryGrid.GetComponent<RectTransform>();
-        rt.anchoredPosition = merchInvent;
-
-        tentMenu.SetActive(false);
-        wagonMenu.SetActive(false);
-
-        _currentMerch = 0;
+        if (merchMenus.Count == 0) return;
+        merchMenus[_currentMerch].SetActive(false);
+        _currentMerch = (_currentMerch + direction + merchMenus.Count) % merchMenus.Count;
+        merchMenus[_currentMerch].SetActive(true);
+    }
+    void NextMerchMenu() // sumo 1 en lista de mercados
+    { ChangeMerchMenu(1); }
+    void PreviousMerchMenu() // resto 1 en lista de mercados
+    { ChangeMerchMenu(-1); }
+    void UpdateMerchMenu() // actualizo al mercado actual
+    {
         for (int i = 0; i < merchMenus.Count; i++)
         { merchMenus[i].SetActive(i == _currentMerch); }
+    }
+    void DisableMerchMenus() // desactivo todos los mercados
+    { foreach (GameObject menu in merchMenus) menu.SetActive(false); }
 
-        currentMenu = CurrentMenu.Merchant;
-    }
-    void NextMerchMenu()
+    void AddParcel(GameObject prefab) // llaman tras comprar parcelas en Inventory
     {
-        if (merchMenus.Count == 0) return;
-        merchMenus[_currentMerch].SetActive(false);
-        _currentMerch = (_currentMerch + 1) % merchMenus.Count;
-        merchMenus[_currentMerch].SetActive(true);
-    }
-    void PreviousMerchMenu()
-    {
-        if (merchMenus.Count == 0) return;
-        merchMenus[_currentMerch].SetActive(false);
-        _currentMerch = (_currentMerch - 1 + merchMenus.Count) % merchMenus.Count;
-        merchMenus[_currentMerch].SetActive(true);
-    }
-    void DisableMerchMenus()
-    {
-        foreach (GameObject menu in merchMenus)
-        { menu.SetActive(false);}
-    }
-    public void UpdateMoney(int amount)
-    {
-        moneyCount += amount;
-        moneyNumber.text = "x"+moneyCount.ToString();
+        GameObject newParcel = Instantiate(prefab);
+        Parcel_Limiter pl = newParcel.GetComponent<Parcel_Limiter>();
+        RegisterParcel(pl);
+        newParcel.SetActive(false);
     }
     public void ToAddBase()
-    {
-        GameObject newParcel = Instantiate(basePref);
-        Parcel_Limiter pl = newParcel.GetComponent<Parcel_Limiter>();
-        RegisterParcel(pl);
-        newParcel.SetActive(false);
-    }
+    { AddParcel(basePref); }
     public void ToAddCrops()
-    {
-        GameObject newParcel = Instantiate(cropsPref);
-        Parcel_Limiter pl = newParcel.GetComponent<Parcel_Limiter>();
-        RegisterParcel(pl);
-        newParcel.SetActive(false);
-    }
+    { AddParcel(cropsPref); }
     public void ToAddFarm()
+    { AddParcel(farmPref); }
+    public void RegisterParcel(Parcel_Limiter parcelNEW) // Start de cada Parcel Limiter
     {
-        GameObject newParcel = Instantiate(farmPref);
-        Parcel_Limiter pl = newParcel.GetComponent<Parcel_Limiter>();
-        RegisterParcel(pl);
-        newParcel.SetActive(false);
-    }
-    public void RegisterParcel(Parcel_Limiter parcelNEW)
-    {
-        // lista general
+        // todas a la general
         if (!parceList.Contains(parcelNEW.gameObject))
             parceList.Add(parcelNEW.gameObject);
-
         // específicas
         switch (parcelNEW.parcelType)
         {
             case Parcel_Limiter.ParcelType.Base:
                 if (!baseParcels.Contains(parcelNEW))
-                    baseParcels.Add(parcelNEW);
-                break;
-
+                baseParcels.Add(parcelNEW); break;
             case Parcel_Limiter.ParcelType.Crops:
                 if (!cropsParcels.Contains(parcelNEW))
-                    cropsParcels.Add(parcelNEW);
-                break;
-
+                cropsParcels.Add(parcelNEW); break;
             case Parcel_Limiter.ParcelType.Farm:
                 if (!farmParcels.Contains(parcelNEW))
-                    farmParcels.Add(parcelNEW);
-                break;
+                farmParcels.Add(parcelNEW); break;
         }
+    }
+    public void UpdateMoney(int amount) // lo llamo al comprar o vender
+    {
+        moneyCount += amount;
+        moneyNumber.text = "x" + moneyCount.ToString();
     }
 }

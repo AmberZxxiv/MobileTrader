@@ -18,5 +18,5 @@ MonoBehaviour:
   sellPrice: 1
   buyAmount: 0
   buyPrice: 0
-  type: 0
+  type: 2
   prefab: {fileID: 0}

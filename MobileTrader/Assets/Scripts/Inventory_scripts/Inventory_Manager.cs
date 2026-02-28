@@ -52,72 +52,58 @@ public class Inventory_Manager : MonoBehaviour
         { slots[item].UpdateAmount(inventory[item]);}
     }
 
-    public void BuyItem(Item_Data item)
+    public void BuyItem(Item_Data item) // llamo desde Buy_Buttons
     {
+        // no compro si no tengo dinero o espacio
         if (_SC.moneyCount < item.buyPrice) return;
-
-        Parcel_Limiter parcel = null;
-
-        if (item.type == Item_Data.ItemType.Plant)
+        Parcel_Limiter parcel = GetAvailableParcel(item.type);
+        if (parcel == null) { print("no queda espacio"); return; }
+        // añado el recurso a la parcela
+        if (parcel.ToAddResource(item.prefab, GetResourceType(item.type)))
         {
-            parcel = GetAvailableCropParcel();
-            if (parcel == null) { print("No hay parcelas para plantas"); return; }
-            if (parcel.ToAddPlant(item.prefab)) { _SC.UpdateMoney(-item.buyPrice); print(item.itemName + " añadida"); }
-        }
-        if (item.type == Item_Data.ItemType.Animal)
-        {
-            parcel = GetAvailableFarmParcel();
-            if (parcel == null) { print("No hay parcelas para animales"); return; }
-            if (parcel.ToAddAnimal(item.prefab)) { _SC.UpdateMoney(-item.buyPrice); print(item.itemName + " añadido"); }
-        }
-        if (item.type == Item_Data.ItemType.Pet)
-        {
-            parcel = GetAvailableBaseParcel();
-            if (parcel == null) { print("No hay base disponible"); return; }
-            if (parcel.ToAddPet(item.prefab)) { _SC.UpdateMoney(-item.buyPrice); print(item.itemName + " añadido"); }
+            _SC.UpdateMoney(-item.buyPrice);
+            print(item.itemName + " añadido");
         }
     }
-    Parcel_Limiter GetAvailableCropParcel()
-    {
-        foreach (Parcel_Limiter parcel in _SC.cropsParcels)
-        { if (parcel.HasSpaceForPlant()) return parcel;}
-        return null;
+    private Parcel_Limiter.ResourceType GetResourceType(Item_Data.ItemType type)
+    { // selecciono el tipo del ScripItem
+        switch (type)
+        {
+            case Item_Data.ItemType.Plant: return Parcel_Limiter.ResourceType.Plant;
+            case Item_Data.ItemType.Animal: return Parcel_Limiter.ResourceType.Animal;
+            case Item_Data.ItemType.Pet: return Parcel_Limiter.ResourceType.Pet;
+            default: throw new System.Exception("Tipo de item desconocido");
+        }
     }
-
-    Parcel_Limiter GetAvailableFarmParcel()
-    {
-        foreach (Parcel_Limiter parcel in _SC.farmParcels)
-        { if (parcel.HasSpaceForAnimal()) return parcel;}
-        return null;
+    private Parcel_Limiter GetAvailableParcel(Item_Data.ItemType type)
+    { // busco parcelas en las listas correspondientes
+        switch (type)
+        {
+            case Item_Data.ItemType.Plant:
+                foreach (var parcel in _SC.cropsParcels)
+                if (parcel.HasSpace(Parcel_Limiter.ResourceType.Plant))
+                return parcel; break;
+            case Item_Data.ItemType.Animal:
+                foreach (var parcel in _SC.farmParcels)
+                if (parcel.HasSpace(Parcel_Limiter.ResourceType.Animal))
+                return parcel; break;
+            case Item_Data.ItemType.Pet:
+                foreach (var parcel in _SC.baseParcels) 
+                if (parcel.HasSpace(Parcel_Limiter.ResourceType.Pet))
+                return parcel; break;
+        } return null;
     }
-    Parcel_Limiter GetAvailableBaseParcel()
-    {
-        foreach (Parcel_Limiter parcel in _SC.baseParcels)
-        { if (parcel.HasSpaceForPets()) return parcel;}
-        return null;
-    }
+    // compra de parcelas desde Inventario
     public void BuyParcBase()
-    { 
-        if (_SC.moneyCount > 0)
-        {
-            _SC.UpdateMoney(-1);
-            _SC.ToAddBase();
-        }
-    }
+    { BuyParcel(_SC.ToAddBase); }
     public void BuyParcCrops()
-    {
-        if (_SC.moneyCount > 0)
-        {
-            _SC.UpdateMoney(-1);
-            _SC.ToAddCrops();
-        }
-    }
+    { BuyParcel(_SC.ToAddCrops); }
     public void BuyParcFarm()
+    { BuyParcel(_SC.ToAddFarm); }
+    private void BuyParcel(System.Action addAction)
     {
-        if (_SC.moneyCount > 0)
-        {
-            _SC.UpdateMoney(-1);
-            _SC.ToAddFarm();
-        }
+        if (_SC.moneyCount <= 0) return;
+        _SC.UpdateMoney(-1);
+        addAction();
     }
 }

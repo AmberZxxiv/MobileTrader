@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Buy_Buttons : MonoBehaviour
-{
+{//script en cada boton de compra especifico
     public Inventory_Manager _IM; //pillo SINGLE del IM
     public Item_Data item; // asigno ScripItem
 

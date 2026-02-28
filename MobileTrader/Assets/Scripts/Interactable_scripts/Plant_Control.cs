@@ -4,12 +4,9 @@ using UnityEngine.EventSystems;
 public class Plant_Control : MonoBehaviour
 {// script en cada prefab de planta
 
-    public PlantState plantState;
     public enum  PlantState
-    {
-        Planted,
-        Grown
-    }
+    { Planted, Grown }
+    public PlantState plantState;
 
     #region /// PRODUCTION ///
     public Item_Data producedItem;
@@ -24,6 +21,7 @@ public class Plant_Control : MonoBehaviour
 
     void Start()
     {
+        // pillo los hijos propios
         plantedChild = transform.GetChild(0).gameObject;
         grownChild = transform.GetChild(1).gameObject;
     }
@@ -38,7 +36,7 @@ public class Plant_Control : MonoBehaviour
             { SetState(PlantState.Grown);}
         }
     }
-    void SetState(PlantState newState)
+    void SetState(PlantState newState) // actualizo de uno a otro
     {
         plantState = newState;
         switch (plantState)
@@ -46,12 +44,10 @@ public class Plant_Control : MonoBehaviour
             case PlantState.Planted:
                 plantedChild.SetActive(true);
                 grownChild.SetActive(false);
-                _timerCounter = 0f;
-                break;
+                _timerCounter = 0f; break;
             case PlantState.Grown:
                 plantedChild.SetActive(false);
-                grownChild.SetActive(true);
-                break;
+                grownChild.SetActive(true); break;
         }
     }
     void OnMouseDown()

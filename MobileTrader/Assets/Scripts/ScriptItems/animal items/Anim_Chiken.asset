@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ad428efd26c22a4ba0832e3a097566b, type: 3}
-  m_Name: Item_Wool
-  m_EditorClassIdentifier: 
-  itemName: Wool
-  icon: {fileID: -1647506622, guid: a18601d9a281e5346a18e80fa857b580, type: 3}
-  collectAmount: 1
-  sellPrice: 1
-  buyAmount: 0
-  buyPrice: 0
+  m_Name: Anim_Chiken
+  m_EditorClassIdentifier: Assembly-CSharp::Item_Data
+  itemName: Chiken
+  icon: {fileID: 0}
+  collectAmount: 0
+  sellPrice: 0
+  buyAmount: 1
+  buyPrice: 1
   type: 3
-  prefab: {fileID: 0}
+  prefab: {fileID: 8705130687707910967, guid: 77da8e60e70581c4fa4713f4152cf7be, type: 3}
