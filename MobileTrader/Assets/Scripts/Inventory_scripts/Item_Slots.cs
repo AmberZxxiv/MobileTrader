@@ -17,9 +17,13 @@ public class Item_Slots : MonoBehaviour
         amountText.text = amount.ToString();
         gameObject.SetActive(true);
     }
-
+    public void SellItem()
+    {
+        if (Scroll_Control._SC.currentMenu == Scroll_Control.CurrentMenu.Merchant)
+        Inventory_Manager._IM.CompleteSell(itemData);
+    }
     public void UpdateAmount(int amount)
     {
-        amountText.text = amount.ToString();
+        amountText.text = "x"+amount.ToString();
     }
 }

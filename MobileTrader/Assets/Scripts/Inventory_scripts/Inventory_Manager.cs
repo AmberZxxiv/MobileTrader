@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inventory_Manager : MonoBehaviour
 {// script canvas porque tiene que estar en algun lao
-    public static Inventory_Manager _IM; //SINGLE
+    public static Inventory_Manager _IM; // declaro SINGLE
     public Scroll_Control _SC; //pillo SINGLE del SC
 
     public Item_Slots itemPrefab; // prefab del item
@@ -13,18 +13,16 @@ public class Inventory_Manager : MonoBehaviour
     Dictionary<Item_Data, int> inventory = new Dictionary<Item_Data, int>(); //controlo las cantidades
     Dictionary<Item_Data, Item_Slots> slots = new Dictionary<Item_Data, Item_Slots>(); //controlo los items
 
-    void Awake() // SINGLE cosas
-    {
-        if (_IM == null) _IM = this;
-        else Destroy(gameObject);
-        if (_SC == null) { _SC = Scroll_Control._SC; }
-    }
+    void Awake() // declaro SINGLE
+    { if (_IM == null) _IM = this; else Destroy(gameObject);}
+    private void Start() //pillo SINGLE del SC
+    { if (_SC == null) { _SC = Scroll_Control._SC; } }
 
-    public void AddItem(Item_Data item)
+    public void AddItem(Item_Data item) // animals y plants al tapear añaden recursos
     {
         if (inventory.ContainsKey(item))
-        { inventory[item] += item.amount; }
-        else inventory[item] = item.amount;
+        { inventory[item] += item.collectAmount; }
+        else inventory[item] = item.collectAmount;
 
         if (slots.ContainsKey(item))
         { slots[item].UpdateAmount(inventory[item]); }
@@ -37,30 +35,89 @@ public class Inventory_Manager : MonoBehaviour
             slots[item] = newSlot;
         }
     }
-    public void BuyPlant()
+    public void CompleteSell(Item_Data item) // recursos al tapear en merch se venden
     {
-        // busco parcelas CROPS
-        foreach (Parcel_Limiter parcel in _SC.cropsParcels)
+        if (!inventory.ContainsKey(item)) return;
+
+        inventory[item]--;
+       _SC.UpdateMoney(item.sellPrice);
+
+        if (inventory[item] <= 0)
         {
-                // compruebo las plantas en las parcelas
-                bool added = parcel.ToAddPlant();
-                if (!added)
-                { print("Crop llena, siguiente"); continue;}
-                else
-                { print("Planta añadida"); break;}
+            Destroy(slots[item].gameObject);
+            slots.Remove(item);
+            inventory.Remove(item);
+        }
+        else
+        { slots[item].UpdateAmount(inventory[item]);}
+    }
+
+    public void BuyItem(Item_Data item)
+    {
+        if (_SC.moneyCount < item.buyPrice) return;
+
+        Parcel_Limiter parcel = null;
+
+        if (item.type == Item_Data.ItemType.Plant)
+        {
+            parcel = GetAvailableCropParcel();
+            if (parcel == null) { print("No hay parcelas para plantas"); return; }
+            if (parcel.ToAddPlant(item.prefab)) { _SC.UpdateMoney(-item.buyPrice); print(item.itemName + " añadida"); }
+        }
+        if (item.type == Item_Data.ItemType.Animal)
+        {
+            parcel = GetAvailableFarmParcel();
+            if (parcel == null) { print("No hay parcelas para animales"); return; }
+            if (parcel.ToAddAnimal(item.prefab)) { _SC.UpdateMoney(-item.buyPrice); print(item.itemName + " añadido"); }
+        }
+        if (item.type == Item_Data.ItemType.Pet)
+        {
+            parcel = GetAvailableBaseParcel();
+            if (parcel == null) { print("No hay base disponible"); return; }
+            if (parcel.ToAddPet(item.prefab)) { _SC.UpdateMoney(-item.buyPrice); print(item.itemName + " añadido"); }
         }
     }
-    public void BuyAnimal()
+    Parcel_Limiter GetAvailableCropParcel()
     {
-        // busco parcelas FARM
+        foreach (Parcel_Limiter parcel in _SC.cropsParcels)
+        { if (parcel.HasSpaceForPlant()) return parcel;}
+        return null;
+    }
+
+    Parcel_Limiter GetAvailableFarmParcel()
+    {
         foreach (Parcel_Limiter parcel in _SC.farmParcels)
+        { if (parcel.HasSpaceForAnimal()) return parcel;}
+        return null;
+    }
+    Parcel_Limiter GetAvailableBaseParcel()
+    {
+        foreach (Parcel_Limiter parcel in _SC.baseParcels)
+        { if (parcel.HasSpaceForPets()) return parcel;}
+        return null;
+    }
+    public void BuyParcBase()
+    { 
+        if (_SC.moneyCount > 0)
         {
-            // compruebo las plantas en las parcelas
-            bool added = parcel.ToAddAnimal();
-            if (!added)
-            { print("Farm llena, siguiente"); continue; }
-            else
-            { print("Animal añadido"); break; }
+            _SC.UpdateMoney(-1);
+            _SC.ToAddBase();
+        }
+    }
+    public void BuyParcCrops()
+    {
+        if (_SC.moneyCount > 0)
+        {
+            _SC.UpdateMoney(-1);
+            _SC.ToAddCrops();
+        }
+    }
+    public void BuyParcFarm()
+    {
+        if (_SC.moneyCount > 0)
+        {
+            _SC.UpdateMoney(-1);
+            _SC.ToAddFarm();
         }
     }
 }

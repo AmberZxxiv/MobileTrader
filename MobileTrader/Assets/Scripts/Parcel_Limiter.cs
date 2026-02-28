@@ -6,25 +6,27 @@ using UnityEngine.UIElements;
 public class Parcel_Limiter : MonoBehaviour
 {// script padre prefab de cada parcela
     public static Parcel_Limiter _PL; //SINGLE
-    public ParcelType parcelType;
+    
     public enum ParcelType
-    {
-        Base,
-        Crops,
-        Farm
-    }
+    { Base, Crops, Farm }
+    public ParcelType parcelType;
+
     public Collider2D parcelBounds;
     public Transform gridStart;
     public int gridColumns;
     public int gridRows;
     public float gridSpacing;
-
-    public GameObject plantPrefab;
-    List<GameObject> _plantsCount = new List<GameObject>();
-
-    public GameObject animalPrefab;
-    List<GameObject> _animalCount = new List<GameObject>();
     public int animalLimit;
+    List<GameObject> _plantsCount = new List<GameObject>();
+    List<GameObject> _animalCount = new List<GameObject>();
+    List<GameObject> _petsCount = new List<GameObject>();
+
+
+    private void Start()
+    {
+        // llamo al registro de listas
+        Scroll_Control._SC.RegisterParcel(this);
+    }
 
     void OnEnable() // cuando activo la nueva parcela
     {
@@ -38,34 +40,60 @@ public class Parcel_Limiter : MonoBehaviour
             { animal.SetParcelBounds(parcelBounds); }
         }
     }
-    public bool ToAddAnimal()
+    public bool ToAddPlant(GameObject plantPrefabCustom)
     {
-        if (_animalCount.Count >= animalLimit)
-        {print("Farm llena");return false;}
-        // spawn con ligero límite evita superposicion
-        UnityEngine.Vector3 offset = new UnityEngine.Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
-        UnityEngine.Vector3 pos = gridStart.position + offset;
-        GameObject newAnimal = Instantiate(animalPrefab, pos, UnityEngine.Quaternion.identity);
-        _animalCount.Add(newAnimal);
-        // instanciamos animal
-        Animal_Control ac = newAnimal.GetComponent<Animal_Control>();
-        return true;
-    }
-    public bool ToAddPlant()
-    {
+        if (!HasSpaceForPlant())
+        { print("Crops llenas"); return false; }
+
         int index = _plantsCount.Count;
         int row = index / gridColumns;
         int col = index % gridColumns;
-        if (row >= gridRows)
-        { print("Crop llena"); return false;}
 
-        // gridStart como esquina superior izquierda
         UnityEngine.Vector3 pos = gridStart.position;
-        pos.x += col * gridSpacing;   // izquierda a derecha
-        pos.y -= row * gridSpacing;   // arriba a abajo
-        // instancio siguiente planta
-        GameObject newPlant = Instantiate(plantPrefab, pos, UnityEngine.Quaternion.identity);
+        pos.x += col * gridSpacing;
+        pos.y -= row * gridSpacing;
+
+        GameObject newPlant = Instantiate(plantPrefabCustom, pos, UnityEngine.Quaternion.identity, transform);
         _plantsCount.Add(newPlant);
         return true;
+    }
+
+    public bool ToAddAnimal(GameObject animalPrefabCustom)
+    {
+        if (!HasSpaceForAnimal())
+        { print("Farms llenas"); return false; }
+
+        UnityEngine.Vector3 offset = new UnityEngine.Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
+        UnityEngine.Vector3 pos = gridStart.position + offset;
+
+        GameObject newAnimal = Instantiate(animalPrefabCustom, pos, UnityEngine.Quaternion.identity, transform);
+        _animalCount.Add(newAnimal);
+        return true;
+    }
+    public bool ToAddPet(GameObject petPrefab)
+    {
+        if (!HasSpaceForPets())
+        {print("Mascotas llenas"); return false;}
+
+        UnityEngine.Vector3 offset = new UnityEngine.Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
+        UnityEngine.Vector3 pos = gridStart.position + offset;
+
+        GameObject newPet = Instantiate(petPrefab, pos, UnityEngine.Quaternion.identity, transform);
+        _petsCount.Add(newPet);
+        return true;
+    }
+    public bool HasSpaceForPlant()
+    {
+        int index = _plantsCount.Count;
+        int row = index / gridColumns;
+        return row < gridRows;
+    }
+    public bool HasSpaceForAnimal()
+    {
+        return _animalCount.Count < animalLimit;
+    }
+    public bool HasSpaceForPets()
+    {
+        return _petsCount.Count < animalLimit;
     }
 }

@@ -1,5 +1,6 @@
 using NUnit.Framework.Interfaces;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
 public class Animal_Control : MonoBehaviour
@@ -30,7 +31,10 @@ public class Animal_Control : MonoBehaviour
     }
 
     void OnMouseDown() // clicar sobre el animal añade su producto al inventario
-    { if (producedItem != null) Inventory_Manager._IM.AddItem(producedItem); }
+    {
+        if (producedItem != null)
+        { Inventory_Manager._IM.AddItem(producedItem); }
+    }
     public void SetParcelBounds(Collider2D parcel) // pillo Parcel_Limiter
     { _bounds = parcel.bounds; }
     void CheckBounds()

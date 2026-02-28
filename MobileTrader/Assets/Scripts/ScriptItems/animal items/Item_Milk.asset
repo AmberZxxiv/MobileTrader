@@ -14,4 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Milk
   icon: {fileID: 1371431871, guid: a18601d9a281e5346a18e80fa857b580, type: 3}
-  amount: 1
+  collectAmount: 1
+  sellPrice: 1
+  buyAmount: 0
+  buyPrice: 0
+  type: 1
+  prefab: {fileID: 0}
