@@ -4,49 +4,68 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Parcel_Limiter : MonoBehaviour
-{// script en empty padre de prefab parcelas completas
-    // declaro universalmente la parcela
-    public static Parcel_Limiter activeParcel; 
-
-    // declaro prefab correspondiente del bioma con collider
+{// script padre prefab de cada parcela
+    public static Parcel_Limiter _PL; //SINGLE
+    public ParcelType parcelType;
+    public enum ParcelType
+    {
+        Base,
+        Crops,
+        Farm
+    }
     public Collider2D parcelBounds;
-    public GameObject plantPrefab;
     public Transform gridStart;
     public int gridColumns;
+    public int gridRows;
     public float gridSpacing;
-    private List<GameObject> gridCount = new List<GameObject>();
+
+    public GameObject plantPrefab;
+    List<GameObject> _plantsCount = new List<GameObject>();
+
+    public GameObject animalPrefab;
+    List<GameObject> _animalCount = new List<GameObject>();
+    public int animalLimit;
 
     void OnEnable() // cuando activo la nueva parcela
     {
-        activeParcel = this; // declaro esta parcela activa
+        _PL = this; // SINGLE ACTUAL 
 
-        // cojo los controladores de todos los hijos animales y les activo el limitador
-        Animal_Control[] animals = GetComponentsInChildren<Animal_Control>();
-        foreach (Animal_Control animal in animals)
-        { animal.SetParcelBounds(parcelBounds); }
+        // cojo controladores de todos los hijos animales y les activo el limitador
+        if (parcelType == ParcelType.Farm || parcelType == ParcelType.Base)
+        {
+            Animal_Control[] animals = GetComponentsInChildren<Animal_Control>();
+            foreach (Animal_Control animal in animals)
+            { animal.SetParcelBounds(parcelBounds); }
+        }
     }
-
-    void Update()
+    public bool ToAddAnimal()
     {
-        // pulsando P añado planta
-        if (Input.GetKeyDown(KeyCode.P) && activeParcel != null)
-        { activeParcel.AddPlant(); }
+        if (_animalCount.Count >= animalLimit)
+        {print("Farm llena");return false;}
+        // spawn con ligero límite evita superposicion
+        UnityEngine.Vector3 offset = new UnityEngine.Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
+        UnityEngine.Vector3 pos = gridStart.position + offset;
+        GameObject newAnimal = Instantiate(animalPrefab, pos, UnityEngine.Quaternion.identity);
+        _animalCount.Add(newAnimal);
+        // instanciamos animal
+        Animal_Control ac = newAnimal.GetComponent<Animal_Control>();
+        return true;
     }
-
-    public void AddPlant()
+    public bool ToAddPlant()
     {
-        int index = gridCount.Count;
+        int index = _plantsCount.Count;
         int row = index / gridColumns;
         int col = index % gridColumns;
+        if (row >= gridRows)
+        { print("Crop llena"); return false;}
 
-        // posición inicial de las columnas
-        UnityEngine.Vector3 pos = gridStart.position 
-        + new UnityEngine.Vector3(col * gridSpacing, 0, row * gridSpacing);
-        // limite dentro del collider de la parcela
-        pos.x = Mathf.Clamp(pos.x, parcelBounds.bounds.min.x, parcelBounds.bounds.max.x);
-        pos.z = Mathf.Clamp(pos.z, parcelBounds.bounds.min.y, parcelBounds.bounds.max.y);
-
+        // gridStart como esquina superior izquierda
+        UnityEngine.Vector3 pos = gridStart.position;
+        pos.x += col * gridSpacing;   // izquierda a derecha
+        pos.y -= row * gridSpacing;   // arriba a abajo
+        // instancio siguiente planta
         GameObject newPlant = Instantiate(plantPrefab, pos, UnityEngine.Quaternion.identity);
-        gridCount.Add(newPlant);
+        _plantsCount.Add(newPlant);
+        return true;
     }
 }

@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 2658814231924349120}
   m_Layer: 0
   m_Name: Base_Par_pref
-  m_TagString: Untagged
+  m_TagString: base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,6 +188,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parcelBounds: {fileID: 5256801804936570876}
+  plantPrefab: {fileID: 0}
+  gridStart: {fileID: 0}
+  gridColumns: 0
+  gridRows: 0
+  gridSpacing: 0
 --- !u!1001 &1585766543615301025
 PrefabInstance:
   m_ObjectHideFlags: 0

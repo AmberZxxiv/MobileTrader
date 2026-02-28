@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Plant_Control
   plantState: 0
   producedItem: {fileID: 0}
-  grownTime: 5
+  grownTime: 3
   plantedChild: {fileID: 0}
   grownChild: {fileID: 0}
 --- !u!58 &5092499353820594845

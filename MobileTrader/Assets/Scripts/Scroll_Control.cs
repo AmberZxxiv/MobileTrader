@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class Scroll_Control : MonoBehaviour
 {// script en el canvas porque tiene que estar en algun lao
-    
+    public static Scroll_Control _SC; //SINGLE
     CurrentMenu currentMenu;
     enum CurrentMenu
     {
@@ -18,11 +18,16 @@ public class Scroll_Control : MonoBehaviour
     #region /// WAGON MENU ///
     public GameObject tentMenu;
     public GameObject wagonMenu;
-    public GameObject merchantMenu;
+    public GameObject merchMenu;
+    public GameObject inventoryGrid;
+    public Vector3 wagonInvent;
+    public Vector3 merchInvent;
     #endregion
 
     #region /// PARCELS LIST ///
     public List<GameObject> parceList;
+    public List<Parcel_Limiter> cropsParcels;
+    public List<Parcel_Limiter> farmParcels;
     public int currentParcel;
     #endregion
 
@@ -32,6 +37,12 @@ public class Scroll_Control : MonoBehaviour
     float _topScreen;
     float _bottomScreen;
     #endregion
+
+    void Awake() // SINGLE cosas
+    {
+        if (_SC == null) _SC = this;
+        else Destroy(gameObject);
+    }
 
     void Start()
     {
@@ -45,6 +56,22 @@ public class Scroll_Control : MonoBehaviour
         // aseguro que solo activo la parcela 0 al iniciar
         for (int i = 0; i < parceList.Count; i++)
         { parceList[i].SetActive(i == currentParcel);}
+
+        // conteo las parcelas del tipo Crops y Farm
+        cropsParcels.Clear();
+        foreach (GameObject parcelUnit in parceList)
+        {
+            Parcel_Limiter parcel = parcelUnit.GetComponent<Parcel_Limiter>();
+            if (parcel != null && parcel.parcelType == Parcel_Limiter.ParcelType.Crops)
+            { cropsParcels.Add(parcel); }
+        }
+        farmParcels.Clear();
+        foreach (GameObject parcelUnit in parceList)
+        {
+            Parcel_Limiter parcel = parcelUnit.GetComponent<Parcel_Limiter>();
+            if (parcel != null && parcel.parcelType == Parcel_Limiter.ParcelType.Farm)
+            { farmParcels.Add(parcel); }
+        }
     }
 
     void Update()
@@ -126,23 +153,30 @@ public class Scroll_Control : MonoBehaviour
     }
     void ShowTent() // actualizo los menus a tent
     {
+        inventoryGrid.SetActive(false);
         tentMenu.SetActive(true);
         wagonMenu.SetActive(false);
-        merchantMenu.SetActive(false);
+        merchMenu.SetActive(false);
         currentMenu = CurrentMenu.Tent;
     }
     void ShowWagon() // actualizo los menus a wagon
     {
+        inventoryGrid.SetActive(true);
+        RectTransform rt = inventoryGrid.GetComponent<RectTransform>();
+        rt.anchoredPosition = wagonInvent;
         tentMenu.SetActive(false);
         wagonMenu.SetActive(true);
-        merchantMenu.SetActive(false);
+        merchMenu.SetActive(false);
         currentMenu = CurrentMenu.Wagon;
     }
     void ShowMerchant() // actualizo los menus a merchant
     {
+        inventoryGrid.SetActive(true);
+        RectTransform rt = inventoryGrid.GetComponent<RectTransform>();
+        rt.anchoredPosition = merchInvent;
         tentMenu.SetActive(false);
         wagonMenu.SetActive(false);
-        merchantMenu.SetActive(true);
+        merchMenu.SetActive(true);
         currentMenu = CurrentMenu.Merchant;
     }
 }

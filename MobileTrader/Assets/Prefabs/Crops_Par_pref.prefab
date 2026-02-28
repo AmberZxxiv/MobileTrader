@@ -217,10 +217,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3372ab8d440eced4a87acbedee0976c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parcelType: 1
   parcelBounds: {fileID: 1521285613854518842}
   plantPrefab: {fileID: 7682492715378109869, guid: d542d7faff6572f4bb2cb7e9a7ad7d7e, type: 3}
   gridStart: {fileID: 5421784231205063883}
   gridColumns: 3
+  gridRows: 4
   gridSpacing: 3
 --- !u!1001 &503272691038265403
 PrefabInstance:

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - plant
   - animal
+  - base
+  - farm
   layers:
   - Default
   - TransparentFX
