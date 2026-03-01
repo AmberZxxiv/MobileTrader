@@ -3,9 +3,9 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Parcel_Limiter : MonoBehaviour
+public class Parcel_Individual : MonoBehaviour
 {// script padre prefab de cada parcela
-    public static Parcel_Limiter _PL; //SINGLE PARCELA ACTUAL 
+    public static Parcel_Individual _PI; //SINGLE PARCELA ACTUAL 
 
     public enum ParcelType
     { Base, Crops, Farm }
@@ -21,6 +21,7 @@ public class Parcel_Limiter : MonoBehaviour
     public int gridRows;
     public float gridSpacing;
     public int animalLimit;
+    public int petsLimit;
     #endregion
 
     // relaciono los objetos en listas
@@ -32,11 +33,11 @@ public class Parcel_Limiter : MonoBehaviour
     };
 
     private void Start() // llamo al registro del S_Control
-    { Scroll_Control._SC.RegisterParcel(this); }
+    { Zones_General._ZG.RegisterParcel(this); }
 
     void OnEnable() // cuando activo la nueva parcela
     {
-        _PL = this; // SINGLE PARCELA ACTUAL 
+        _PI = this; // SINGLE PARCELA ACTUAL 
         // cojo controladores de todos los hijos animales y les activo el limitador
         if (parcelType == ParcelType.Farm || parcelType == ParcelType.Base)
         {
@@ -68,10 +69,16 @@ public class Parcel_Limiter : MonoBehaviour
     public bool HasSpace(ResourceType type)
     { // cojo los límites de cada recurso
         var list = resources[type];
-        if (type == ResourceType.Plant)
-        return (list.Count / gridColumns) < gridRows;
-        else
-        return list.Count < animalLimit;
+        switch (type)
+        {
+            case ResourceType.Plant:
+                return (list.Count / gridColumns) < gridRows;
+            case ResourceType.Animal:
+                return list.Count < animalLimit;
+            case ResourceType.Pet:
+                return list.Count < petsLimit;
+            default: return false;
+        }
     }
     // desde Inventario al Comprar
     public bool HasSpaceForPlant()

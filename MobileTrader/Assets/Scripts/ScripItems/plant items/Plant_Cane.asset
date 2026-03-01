@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad428efd26c22a4ba0832e3a097566b, type: 3}
+  m_Name: Plant_Cane
+  m_EditorClassIdentifier: Assembly-CSharp::Item_Data
+  itemName: Cane
+  icon: {fileID: 0}
+  collectAmount: 0
+  sellPrice: 0
+  buyAmount: 1
+  buyPrice: 1
+  type: 2
+  prefab: {fileID: 4138041198819843359, guid: a5aab74a8c05803488673740d25da577, type: 3}

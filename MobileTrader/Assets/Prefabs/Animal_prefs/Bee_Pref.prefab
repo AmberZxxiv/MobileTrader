@@ -169,5 +169,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f7e400981c57647988598a0e043174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.75
+  animalState: 0
+  speed: 2
   producedItem: {fileID: 11400000, guid: dbb7cd1ffce2d9d42a1a2c0bebf503a5, type: 2}
+  cooldownTime: 1
+  particleReady: {fileID: 3676649445002316776, guid: 601ead243cf6bf04ab213338d5da6d14, type: 3}

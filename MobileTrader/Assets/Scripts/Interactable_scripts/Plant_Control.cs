@@ -60,7 +60,7 @@ public class Plant_Control : MonoBehaviour
     {
         // clicar sobre la planta añade su producto al inventario
         if (producedItem != null)
-        { Inventory_Manager._IM.AddItem(producedItem); }
+        { Invent_Control._IC.AddItem(producedItem); }
         // reseteo el estado base
         SetState(PlantState.Planted);
     }

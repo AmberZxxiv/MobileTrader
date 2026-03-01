@@ -218,12 +218,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parcelType: 0
+  resourceType: 0
   parcelBounds: {fileID: 5256801804936570876}
   gridStart: {fileID: 139718543973974276}
   gridColumns: 3
   gridRows: 4
   gridSpacing: 3
   animalLimit: 6
+  petsLimit: 4
 --- !u!1001 &1246586151442040493
 PrefabInstance:
   m_ObjectHideFlags: 0

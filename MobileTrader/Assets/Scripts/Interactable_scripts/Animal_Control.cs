@@ -2,9 +2,13 @@ using NUnit.Framework.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using static Plant_Control;
 
 public class Animal_Control : MonoBehaviour
 {// script en cada prefab de animal
+    public enum AnimalState
+    { None, Ready }
+    public AnimalState animalState;
 
     #region /// MOVIMIENTO ///
     public float speed;
@@ -14,6 +18,9 @@ public class Animal_Control : MonoBehaviour
 
     #region /// PRODUCTION ///
     public Item_Data producedItem;
+    public float cooldownTime;
+    float _timerCounter;
+    public GameObject particleReady;
     #endregion
 
     void Start()
@@ -28,14 +35,43 @@ public class Animal_Control : MonoBehaviour
         if (_bounds.size == Vector3.zero) return;
         transform.Translate(_direction * speed * Time.deltaTime);
         CheckBounds();
+
+        // de base, sumo el timer hasta llegar a ready
+        if (animalState == AnimalState.None)
+        {
+            _timerCounter += Time.deltaTime;
+            // cuando llego a ready, doy feedback del estado
+            if (_timerCounter >= cooldownTime)
+            { SetState(AnimalState.Ready); }
+        }
     }
 
-    void OnMouseDown() // clicar sobre el animal añade su producto al inventario
+    void OnMouseDown() // tap sobre animal ready activa recoleccion
+    {
+        if (animalState != AnimalState.Ready) return;
+        Harvest();
+    }
+    void Harvest()
     {
         if (producedItem != null)
-        { Inventory_Manager._IM.AddItem(producedItem); }
+        {
+            Invent_Control._IC.AddItem(producedItem);
+            if (particleReady != null)
+            {
+                Vector3 spawnPos = transform.position;
+                Quaternion spawnRot = Quaternion.Euler(90f, 0f, 0f);
+                Instantiate(particleReady, spawnPos, spawnRot);
+            }
+        }
+        SetState(AnimalState.None);
     }
-    public void SetParcelBounds(Collider2D parcel) // pillo Parcel_Limiter
+    void SetState(AnimalState newState)
+    {
+        animalState = newState;
+        _timerCounter = 0f;
+    }
+
+    public void SetParcelBounds(Collider2D parcel) // pillo Parcel_Individual
     { _bounds = parcel.bounds; }
     void CheckBounds()
     {

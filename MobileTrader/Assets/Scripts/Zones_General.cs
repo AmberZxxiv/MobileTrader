@@ -6,10 +6,11 @@ using ClassicTouch = UnityEngine.Touch;
 using UnityEngine.InputSystem.LowLevel;
 using Unity.VisualScripting.Antlr3.Runtime;
 using TMPro;
+using UnityEngine.SceneManagement;
 
-public class Scroll_Control : MonoBehaviour
+public class Zones_General : MonoBehaviour
 {// script en el canvas porque tiene que estar en algun lao
-    public static Scroll_Control _SC; // declaro SINGLE
+    public static Zones_General _ZG; // declaro SINGLE
     public enum CurrentMenu
     { Tent, Wagon, Merchant }
     public CurrentMenu currentMenu;
@@ -19,7 +20,7 @@ public class Scroll_Control : MonoBehaviour
     public GameObject wagonMenu;
     public List<GameObject> merchMenus;
     int _currentMerch;
-    public GameObject inventoryGrid;
+    public GameObject paginasGrid;
     public Vector3 wagonInvent;
     public Vector3 merchInvent;
     public int moneyCount;
@@ -28,9 +29,9 @@ public class Scroll_Control : MonoBehaviour
 
     #region /// PARCELS LIST ///
     public List<GameObject> parceList;
-    public List<Parcel_Limiter> baseParcels;
-    public List<Parcel_Limiter> cropsParcels;
-    public List<Parcel_Limiter> farmParcels;
+    public List<Parcel_Individual> baseParcels;
+    public List<Parcel_Individual> cropsParcels;
+    public List<Parcel_Individual> farmParcels;
     public int currentParcel;
     public GameObject basePref;
     public GameObject cropsPref;
@@ -45,9 +46,10 @@ public class Scroll_Control : MonoBehaviour
     #endregion
 
     void Awake() // declaro SINGLE
-    { if (_SC == null) _SC = this; else Destroy(gameObject); }
+    { if (_ZG == null) _ZG = this; else Destroy(gameObject); }
     void Start()
     {
+        Time.timeScale = 1;
         // cojo espacios relativos de pantalla
         _topScreen = Screen.height * 0.75f;
         _bottomScreen = Screen.height * 0.25f;
@@ -84,17 +86,17 @@ public class Scroll_Control : MonoBehaviour
         farmParcels.Clear();
         foreach (GameObject parcelUnit in parceList)
         {
-            Parcel_Limiter parcel = parcelUnit.GetComponent<Parcel_Limiter>();
+            Parcel_Individual parcel = parcelUnit.GetComponent<Parcel_Individual>();
             if (parcel == null) continue;
             switch (parcel.parcelType)
             {
-                case Parcel_Limiter.ParcelType.Base:
+                case Parcel_Individual.ParcelType.Base:
                     baseParcels.Add(parcel); break;
 
-                case Parcel_Limiter.ParcelType.Crops:
+                case Parcel_Individual.ParcelType.Crops:
                     cropsParcels.Add(parcel); break;
 
-                case Parcel_Limiter.ParcelType.Farm:
+                case Parcel_Individual.ParcelType.Farm:
                     farmParcels.Add(parcel); break;
             }
         }
@@ -116,6 +118,9 @@ public class Scroll_Control : MonoBehaviour
             switch (currentMenu)
             {
                 case CurrentMenu.Wagon:
+                    if (delta.x < 0) Invent_Control._IC.NextPage();       // swipe izquierda
+                    if (delta.x > 0) Invent_Control._IC.PreviousPage();  // swipe derecha
+                    break;
                 case CurrentMenu.Tent:
                     if (delta.x < 0) NextParcel();      // swipe izquierda
                     if (delta.x > 0) PreviousParcel(); // swipe derecha
@@ -164,16 +169,19 @@ public class Scroll_Control : MonoBehaviour
         bool showParcel = (newMenu == CurrentMenu.Tent);
         parceList[currentParcel].SetActive(showParcel);
 
-        inventoryGrid.SetActive(newMenu != CurrentMenu.Tent);
+        paginasGrid.SetActive(newMenu != CurrentMenu.Tent);
         tentMenu.SetActive(newMenu == CurrentMenu.Tent);
         wagonMenu.SetActive(newMenu == CurrentMenu.Wagon);
         DisableMerchMenus();
 
         if (newMenu == CurrentMenu.Wagon)
-        { inventoryGrid.GetComponent<RectTransform>().anchoredPosition = wagonInvent; }
+        {
+            paginasGrid.GetComponent<RectTransform>().anchoredPosition = wagonInvent;
+            Invent_Control._IC.ShowPage(Invent_Control._IC.currentPage);
+        }
         if (newMenu == CurrentMenu.Merchant)
         {
-            inventoryGrid.GetComponent<RectTransform>().anchoredPosition = merchInvent;
+            paginasGrid.GetComponent<RectTransform>().anchoredPosition = merchInvent;
             _currentMerch = 0;
             UpdateMerchMenu();
         }
@@ -206,7 +214,7 @@ public class Scroll_Control : MonoBehaviour
     void AddParcel(GameObject prefab) // llaman tras comprar parcelas en Inventory
     {
         GameObject newParcel = Instantiate(prefab);
-        Parcel_Limiter pl = newParcel.GetComponent<Parcel_Limiter>();
+        Parcel_Individual pl = newParcel.GetComponent<Parcel_Individual>();
         RegisterParcel(pl);
         newParcel.SetActive(false);
     }
@@ -216,7 +224,7 @@ public class Scroll_Control : MonoBehaviour
     { AddParcel(cropsPref); }
     public void ToAddFarm()
     { AddParcel(farmPref); }
-    public void RegisterParcel(Parcel_Limiter parcelNEW) // Start de cada Parcel Limiter
+    public void RegisterParcel(Parcel_Individual parcelNEW) // Start de cada Parcel Limiter
     {
         // todas a la general
         if (!parceList.Contains(parcelNEW.gameObject))
@@ -224,13 +232,13 @@ public class Scroll_Control : MonoBehaviour
         // específicas
         switch (parcelNEW.parcelType)
         {
-            case Parcel_Limiter.ParcelType.Base:
+            case Parcel_Individual.ParcelType.Base:
                 if (!baseParcels.Contains(parcelNEW))
                 baseParcels.Add(parcelNEW); break;
-            case Parcel_Limiter.ParcelType.Crops:
+            case Parcel_Individual.ParcelType.Crops:
                 if (!cropsParcels.Contains(parcelNEW))
                 cropsParcels.Add(parcelNEW); break;
-            case Parcel_Limiter.ParcelType.Farm:
+            case Parcel_Individual.ParcelType.Farm:
                 if (!farmParcels.Contains(parcelNEW))
                 farmParcels.Add(parcelNEW); break;
         }
@@ -240,4 +248,7 @@ public class Scroll_Control : MonoBehaviour
         moneyCount += amount;
         moneyNumber.text = "x" + moneyCount.ToString();
     }
+
+    public void ExitGame()
+    { SceneManager.LoadScene(0);}
 }

@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 5906152229023985735}
   - component: {fileID: 6550146406059030587}
   m_Layer: 5
-  m_Name: ItemSlot_pref
+  m_Name: InventItem_pref
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
