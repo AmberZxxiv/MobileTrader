@@ -1,5 +1,6 @@
 using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Invent_Control : MonoBehaviour
@@ -48,12 +49,12 @@ public class Invent_Control : MonoBehaviour
     { ShowPage((currentPage - 1 + pages.Count) % pages.Count); }
     public void BuyInventoryPage()
     {
-        int price = 1;
+        int price = 10; // dinero que tengo que tener para inventario
         if (Zones_General._ZG.moneyCount >= price)
         {
             Zones_General._ZG.UpdateMoney(-price);
             CreateNewPage();
-            print("new wagon added");
+            print("new wagon");
         }
         else print("no hay dinero");
     }
@@ -61,14 +62,14 @@ public class Invent_Control : MonoBehaviour
     public void AddItem(Item_Data item) // animals y plants al tapear añaden recursos
     {
         foreach (var page in pages)
-        { if (page.TryAddItem(item, itemPrefab)) return;}
+        { if (page.ToAddItem(item, itemPrefab)) return;}
         print("inventario lleno");
     }
     public void CompleteSell(Item_Data item) // ivent items en merch se venden
     {
         foreach (var page in pages)
         {
-            if (page.TryRemoveItem(item))
+            if (page.ToRemoveItem(item))
             { _ZG.UpdateMoney(item.sellPrice); return;}
         }
     }
@@ -90,10 +91,13 @@ public class Invent_Control : MonoBehaviour
     { // selecciono el tipo del ScripItem
         switch (type)
         {
-            case Item_Data.ItemType.Plant: return Parcel_Individual.ResourceType.Plant;
-            case Item_Data.ItemType.Animal: return Parcel_Individual.ResourceType.Animal;
-            case Item_Data.ItemType.Pet: return Parcel_Individual.ResourceType.Pet;
-            default: throw new System.Exception("Tipo de item desconocido");
+            case Item_Data.ItemType.Plant: 
+                return Parcel_Individual.ResourceType.Plant;
+            case Item_Data.ItemType.Animal: 
+                return Parcel_Individual.ResourceType.Animal;
+            case Item_Data.ItemType.Pet: 
+                return Parcel_Individual.ResourceType.Pet;
+            default: throw new System.Exception("tipo no asignado");
         }
     }
     private Parcel_Individual GetAvailableParcel(Item_Data.ItemType type)
@@ -114,7 +118,7 @@ public class Invent_Control : MonoBehaviour
                 return parcel; break;
         } return null;
     }
-    // compra de parcelas desde Inventario
+    // depende del boton, añado parcela tipo
     public void BuyParcBase()
     { BuyParcel(_ZG.ToAddBase); }
     public void BuyParcCrops()
@@ -123,8 +127,9 @@ public class Invent_Control : MonoBehaviour
     { BuyParcel(_ZG.ToAddFarm); }
     private void BuyParcel(System.Action addAction)
     {
-        if (_ZG.moneyCount <= 0) return;
-        _ZG.UpdateMoney(-1);
-        addAction();
+        int price = 10; // dinero que tengo que tener para parcelas
+        if (Zones_General._ZG.moneyCount < price) return;
+        Zones_General._ZG.UpdateMoney(-price);
+        addAction(); print("new parcel");
     }
 }

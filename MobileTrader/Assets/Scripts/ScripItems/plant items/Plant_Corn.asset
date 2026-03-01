@@ -17,6 +17,6 @@ MonoBehaviour:
   collectAmount: 0
   sellPrice: 0
   buyAmount: 1
-  buyPrice: 1
+  buyPrice: 5
   type: 2
   prefab: {fileID: 5486185730340471542, guid: f372f6bb9f18c944892684ed78d69d29, type: 3}

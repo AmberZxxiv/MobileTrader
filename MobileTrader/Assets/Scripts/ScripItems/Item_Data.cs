@@ -13,5 +13,4 @@ public class Item_Data : ScriptableObject
     public enum ItemType { Deco, Pet, Plant, Animal }
     public ItemType type;
     public GameObject prefab;
-
 }
