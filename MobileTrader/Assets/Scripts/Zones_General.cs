@@ -61,22 +61,25 @@ public class Zones_General : MonoBehaviour
     }
     void Update()
     {
-        if (Input.touchCount > 0) //pal tactil del movil
+        //Movimiento unificado para tactil y raton
+        Vector2 startPos = Vector2.zero;
+        Vector2 endPos = Vector2.zero;
+        bool released = false;
+
+        if (Input.touchCount > 0)
         {
-            // calculo desde donde a donde toco y genero un movimiento en la direccion
             ClassicTouch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             { _touchStart = touch.position; }
             if (touch.phase == TouchPhase.Ended)
-            { SwipeDirector(touch.position);  }
+            { endPos = touch.position; released = true;}
         }
-
-        #if UNITY_EDITOR // pal PC hago lo mismo con el raton
-        if (Input.GetMouseButtonDown(0)) 
-        { _touchStart = Input.mousePosition; }
-        if (Input.GetMouseButtonUp(0))
-        { SwipeDirector(Input.mousePosition); }
-        #endif
+        else if (Input.GetMouseButtonDown(0))
+        {_touchStart = Input.mousePosition;}
+        else if (Input.GetMouseButtonUp(0))
+        {endPos = Input.mousePosition;released = true;}
+        if (released)
+        { SwipeDirector(endPos); }
     }
 
     void InitializeParcels()
